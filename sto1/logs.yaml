@@ -39,7 +39,7 @@ metadata:
   name: ingress-logs-es
   namespace: ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
 spec:
@@ -82,7 +82,7 @@ metadata:
   name: ingress-logs-kb
   namespace: ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
 spec:
