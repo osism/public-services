@@ -1,0 +1,103 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logs
+
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: logs
+  namespace: logs
+spec:
+  version: 7.15.1
+  nodeSets:
+   - name: default
+     count: 1
+     config:
+       node.store.allow_mmap: false
+     volumeClaimTemplates:
+     - metadata:
+         name: elasticsearch-data
+       spec:
+         accessModes:
+         - ReadWriteOnce
+         resources:
+           requests:
+             storage: 500Gi
+         storageClassName: microk8s-hostpath
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-logs-es
+  namespace: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+spec:
+  rules:
+  - host: elasticsearch.services.osism.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: logs-es-http
+            port:
+              number: 9200
+  tls:
+  - hosts:
+    - elasticsearch.services.osism.tech
+    secretName: cert-ingress-logs-es
+
+---
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: logs
+  namespace: logs
+spec:
+  version: 7.15.1
+  count: 1
+  elasticsearchRef:
+    name: logs
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-logs-kb
+  namespace: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+spec:
+  rules:
+  - host: kibana.services.osism.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: logs-kb-http
+            port:
+              number: 5601
+  tls:
+  - hosts:
+    - kibana.services.osism.tech
+    secretName: cert-ingress-logs-kb
