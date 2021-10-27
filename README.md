@@ -45,3 +45,9 @@ kubectl create -f https://download.elastic.co/downloads/eck/1.8.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/1.8.0/operator.yaml
 kubectl apply -f sto1/logs.yaml
 ```
+
+Get the credentials of the automatically created default user named ``elastic``:
+
+```
+kubectl get secret logs-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
+```
