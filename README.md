@@ -13,6 +13,12 @@ snap install microk8s --classic --channel=1.22/stable
 microk8s enable dns dashboard storage ingress
 ```
 
+The following command will output the kubeconfig file from microk8s:
+
+```
+microk8s config
+```
+
 ### Reset
 
 ```
