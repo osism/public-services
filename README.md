@@ -54,3 +54,30 @@ Get the credentials of the automatically created default user named ``elastic``:
 ```
 kubectl get secret logs-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 ```
+
+### Minio service
+
+```
+brew install krew
+kubectl krew install minio
+```
+
+To be able to run kubectl plugins, you need to add the following to your ~/.zshrc:
+
+```
+export PATH="${PATH}:${HOME}/.krew/bin"
+```
+
+```
+kubectl minio init --namespace-to-watch default -o > generic/minio-operator.yaml
+kubectl apply -f generic/minio-operator.yaml
+```
+
+```
+kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio > sto1/minio.yaml
+kubectl apply -f sto1/minio.yaml
+```
+
+```
+kubectl minio proxy -n minio-operator
+```
