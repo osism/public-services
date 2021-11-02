@@ -57,6 +57,9 @@ kubectl get secret logs-es-elastic-user -o go-template='{{.data.elastic | base64
 
 ### Minio service
 
+* https://minio.management.osism.tech
+* https://minio.services.osism.tech
+
 ```
 brew install krew
 kubectl krew install minio
