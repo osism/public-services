@@ -55,6 +55,18 @@ Get the credentials of the automatically created default user named ``elastic``:
 kubectl get secret logs-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 ```
 
+### Harbor service
+
+* https://harbor.services.osism.tech
+
+```
+helm repo add harbor https://helm.goharbor.io
+```
+
+```
+helm install --create-namespace --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml --set harborAdminPassword=password
+```
+
 ### Minio service
 
 * https://minio.management.osism.tech

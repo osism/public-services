@@ -1,0 +1,36 @@
+---
+externalURL: "https://harbor.services.osism.tech"
+expose:
+  ingress:
+    hosts:
+      core: "harbor.services.osism.tech"
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-production"
+      kubernetes.io/ingress.class: "public"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+  tls:
+    certSource: secret
+    secret:
+      secretName: cert-ingress-harbor
+notary:
+  enabled: false
+persistence:
+  persistentVolumeClaim:
+    registry:
+      size: 5000Gi
+      storageClass: microk8s-hostpath
+    chartmuseum:
+      size: 5Gi
+      storageClass: microk8s-hostpath
+    jobservice:
+      size: 5Gi
+      storageClass: microk8s-hostpath
+    database:
+      size: 5Gi
+      storageClass: microk8s-hostpath
+    redis:
+      size: 5Gi
+      storageClass: microk8s-hostpath
+    trivy:
+      size: 10Gi
+      storageClass: microk8s-hostpath
