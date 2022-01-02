@@ -5,7 +5,7 @@ metadata:
   name: logs
   namespace: default
 spec:
-  version: 7.15.1
+  version: 7.16.2
   nodeSets:
    - name: default
      count: 1
@@ -60,7 +60,7 @@ metadata:
   name: logs
   namespace: default
 spec:
-  version: 7.15.1
+  version: 7.16.2
   count: 1
   elasticsearchRef:
     name: logs
