@@ -67,6 +67,10 @@ helm repo add harbor https://helm.goharbor.io
 helm install --create-namespace --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml --set harborAdminPassword=password
 ```
 
+```
+helm upgrade --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml
+```
+
 ### Minio service
 
 * https://minio.management.osism.tech
