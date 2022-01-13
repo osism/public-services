@@ -15,7 +15,7 @@ expose:
 notary:
   enabled: false
 jobservice:
-  maxJobWorkers: 10
+  maxJobWorkers: 20
 persistence:
   persistentVolumeClaim:
     registry:
