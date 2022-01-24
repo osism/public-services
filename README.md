@@ -1,4 +1,4 @@
-# public-serivces
+# public-services
 
 ## microk8s
 
