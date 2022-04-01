@@ -9,7 +9,7 @@ by a Gardener instance, are used.
 ### Installation
 
 ```
-snap install microk8s --classic --channel=1.22/stable
+snap install microk8s --classic --channel=1.23/stable
 microk8s enable dns dashboard storage ingress
 ```
 
