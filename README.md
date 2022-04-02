@@ -11,6 +11,7 @@ by a Gardener instance, are used.
 ```
 apt-get install -y snapcraft
 snap install microk8s --classic --channel=1.23/stable
+snap install kubectl --classic
 microk8s enable dns dashboard storage ingress
 ```
 
