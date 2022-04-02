@@ -9,6 +9,7 @@ by a Gardener instance, are used.
 ### Installation
 
 ```
+apt-get install -y snapcraft
 snap install microk8s --classic --channel=1.23/stable
 microk8s enable dns dashboard storage ingress
 ```
