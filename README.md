@@ -36,7 +36,7 @@ and container images.
 ### Generic services
 
 ```
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
 kubectl apply -f generic/cert-manager.yaml
 ```
 
@@ -80,7 +80,7 @@ sto2 is a bare-metal system with 2x 8 TByte SATA HDDs. It is used to store machi
 ### Generic services
 
 ```
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
 kubectl apply -f generic/cert-manager.yaml
 ```
 
