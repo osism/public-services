@@ -106,8 +106,9 @@ kubectl apply -f generic/minio-operator.yaml
 ```
 
 ```
-kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio --namespace default > sto1/minio.yaml
-kubectl apply -f sto1/minio.yaml
+kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio --namespace default > sto2/minio.yaml
+kubectl apply -f sto2/minio-secrets.yaml
+kubectl apply -f sto2/minio.yaml
 ```
 
 ```
