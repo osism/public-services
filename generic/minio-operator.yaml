@@ -140,7 +140,7 @@ rules:
 - apiGroups:
   - monitoring.coreos.com
   resources:
-  - servicemonitors
+  - prometheuses
   verbs:
   - '*'
 - apiGroups:
@@ -2203,8 +2203,6 @@ spec:
                 properties:
                   bucketDNS:
                     type: boolean
-                required:
-                - bucketDNS
                 type: object
               securityContext:
                 properties:
@@ -3916,6 +3914,14 @@ spec:
                               type: array
                           type: object
                       type: object
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    labels:
+                      additionalProperties:
+                        type: string
+                      type: object
                     name:
                       type: string
                     nodeSelector:
@@ -3941,6 +3947,68 @@ spec:
                             x-kubernetes-int-or-string: true
                           type: object
                       type: object
+                    securityContext:
+                      properties:
+                        fsGroup:
+                          format: int64
+                          type: integer
+                        fsGroupChangePolicy:
+                          type: string
+                        runAsGroup:
+                          format: int64
+                          type: integer
+                        runAsNonRoot:
+                          type: boolean
+                        runAsUser:
+                          format: int64
+                          type: integer
+                        seLinuxOptions:
+                          properties:
+                            level:
+                              type: string
+                            role:
+                              type: string
+                            type:
+                              type: string
+                            user:
+                              type: string
+                          type: object
+                        seccompProfile:
+                          properties:
+                            localhostProfile:
+                              type: string
+                            type:
+                              type: string
+                          required:
+                          - type
+                          type: object
+                        supplementalGroups:
+                          items:
+                            format: int64
+                            type: integer
+                          type: array
+                        sysctls:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - name
+                            - value
+                            type: object
+                          type: array
+                        windowsOptions:
+                          properties:
+                            gmsaCredentialSpec:
+                              type: string
+                            gmsaCredentialSpecName:
+                              type: string
+                            runAsUserName:
+                              type: string
+                          type: object
+                      type: object
                     servers:
                       format: int32
                       type: integer
@@ -3958,6 +4026,45 @@ spec:
                             type: integer
                           value:
                             type: string
+                        type: object
+                      type: array
+                    topologySpreadConstraints:
+                      items:
+                        properties:
+                          labelSelector:
+                            properties:
+                              matchExpressions:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    operator:
+                                      type: string
+                                    values:
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - key
+                                  - operator
+                                  type: object
+                                type: array
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            type: object
+                          maxSkew:
+                            format: int32
+                            type: integer
+                          topologyKey:
+                            type: string
+                          whenUnsatisfiable:
+                            type: string
+                        required:
+                        - maxSkew
+                        - topologyKey
+                        - whenUnsatisfiable
                         type: object
                       type: array
                     volumeClaimTemplate:
@@ -4146,6 +4253,10 @@ spec:
                   type: object
                 nullable: true
                 type: array
+              provisionedBuckets:
+                type: boolean
+              provisionedUsers:
+                type: boolean
               revision:
                 format: int32
                 type: integer
@@ -4162,6 +4273,21 @@ spec:
                   rawUsage:
                     format: int64
                     type: integer
+                  tiers:
+                    items:
+                      properties:
+                        Name:
+                          type: string
+                        Type:
+                          type: string
+                        totalSize:
+                          format: int64
+                          type: integer
+                      required:
+                      - Name
+                      - totalSize
+                      type: object
+                    type: array
                   usage:
                     format: int64
                     type: integer
@@ -4213,6 +4339,17 @@ spec:
             type: object
           spec:
             properties:
+              buckets:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    objectLock:
+                      type: boolean
+                    region:
+                      type: string
+                  type: object
+                type: array
               certConfig:
                 properties:
                   commonName:
@@ -4333,6 +4470,20 @@ spec:
                     type: string
                 required:
                 - name
+                type: object
+              features:
+                properties:
+                  bucketDNS:
+                    type: boolean
+                  domains:
+                    properties:
+                      console:
+                        type: string
+                      minio:
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               image:
                 type: string
@@ -6816,16 +6967,7 @@ spec:
                     type: array
                 type: object
               prometheusOperator:
-                properties:
-                  annotations:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  labels:
-                    additionalProperties:
-                      type: string
-                    type: object
-                type: object
+                type: boolean
               readiness:
                 properties:
                   exec:
@@ -6897,8 +7039,6 @@ spec:
                 properties:
                   bucketDNS:
                     type: boolean
-                required:
-                - bucketDNS
                 type: object
               serviceAccountName:
                 type: string
@@ -8347,6 +8487,10 @@ spec:
                   type: object
                 nullable: true
                 type: array
+              provisionedBuckets:
+                type: boolean
+              provisionedUsers:
+                type: boolean
               revision:
                 format: int32
                 type: integer
@@ -8363,6 +8507,21 @@ spec:
                   rawUsage:
                     format: int64
                     type: integer
+                  tiers:
+                    items:
+                      properties:
+                        Name:
+                          type: string
+                        Type:
+                          type: string
+                        totalSize:
+                          format: int64
+                          type: integer
+                      required:
+                      - Name
+                      - totalSize
+                      type: object
+                    type: array
                   usage:
                     format: int64
                     type: integer
@@ -8410,6 +8569,8 @@ spec:
   ports:
   - name: https
     port: 4222
+  - name: http
+    port: 4221
   selector:
     name: minio-operator
     operator: leader
@@ -8454,7 +8615,7 @@ spec:
           value: default
         - name: CLUSTER_DOMAIN
           value: cluster.local
-        image: minio/operator:v4.3.1
+        image: minio/operator:v4.4.13
         imagePullPolicy: IfNotPresent
         name: minio-operator
         resources:
@@ -8796,7 +8957,7 @@ spec:
         env:
         - name: CONSOLE_OPERATOR_MODE
           value: "on"
-        image: minio/console:v0.11.0
+        image: minio/console:v0.15.6
         imagePullPolicy: IfNotPresent
         name: console
         ports:

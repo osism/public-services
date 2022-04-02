@@ -10,7 +10,7 @@ spec:
   certConfig: {}
   credsSecret:
     name: minio-creds-secret
-  image: minio/minio:RELEASE.2021-10-06T23-36-31Z
+  image: minio/minio:RELEASE.2022-03-26T06-49-28Z
   imagePullSecret: {}
   mountPath: /export
   pools:

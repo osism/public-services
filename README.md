@@ -29,7 +29,7 @@ microk8s enable dns dashboard storage ingress
 ## sto1
 
 sto1 is a bare-metal system with 14x 16 TByte SATA HDDs. It is used to store logs of the CI
-and binary artifacts like container images or machine images.
+and container images.
 
 ### Generic services
 
@@ -71,6 +71,17 @@ helm install --create-namespace --namespace harbor harbor harbor/harbor --values
 helm upgrade --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml
 ```
 
+## sto2
+
+sto2 is a bare-metal system with 2x 8 TByte SATA HDDs. It is used to store machine images.
+
+### Generic services
+
+```
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
+kubectl apply -f generic/cert-manager.yaml
+```
+
 ### Minio service
 
 * https://minio.management.osism.tech
@@ -93,7 +104,7 @@ kubectl apply -f generic/minio-operator.yaml
 ```
 
 ```
-kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio > sto1/minio.yaml
+kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio --namespace default > sto1/minio.yaml
 kubectl apply -f sto1/minio.yaml
 ```
 
