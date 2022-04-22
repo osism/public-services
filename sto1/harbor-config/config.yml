@@ -1,0 +1,111 @@
+---
+# harbor api url and credentials.
+api:
+  url: https://harbor.services.osism.tech/api/v2.0
+  username: foobar
+  password: foobar
+  # verfiy = check ssl or not
+  verify: true
+
+# this variable is unsed and rather for documentation of possible permissions.
+available_permissions:
+  - artifact:delete
+  - artifact:list
+  - artifact:read
+  - artifact-label:create
+  - artifact-label:delete
+  - helm-chart-version-label:create
+  - helm-chart-version-label:delete
+  - helm-chart-version:create
+  - helm-chart-version:delete
+  - helm-chart:read
+  - repository:delete
+  - repository:list
+  - repository:pull
+  - repository:push
+  - scan:create
+  - scan:stop
+  - tag:create
+  - tag:delete
+  - tag:list
+
+# list of harbor projects
+projects:
+  - project_name: "kolla"
+    public: true
+  - project_name: "osism"
+    public: true
+
+# list of robot accounts
+robot_accounts:
+  - name: github
+    disable: False
+    level: system
+    duration: -1
+    description: ""
+    permissions:
+      - kind: project
+        namespace: "*"
+        access_simplified:
+          - artifact:list
+          - artifact-label:create
+          - repository:list
+          - repository:pull
+          - repository:push
+          - scan:create
+          - scan:stop
+          - tag:create
+
+# list of registries which should be connected to harbor (no replication yet)
+registries:
+  - credential:
+      access_key: foo+bar
+      access_secret: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      type: basic
+      # or oauth
+    name: quay.io
+    url: https://quay.io
+    type: docker-registry
+    # possible values of type:
+    # quay-io
+    # harbor
+    # google-gcr
+    # aws-ecr
+    # azure-acr
+    # ali-acr
+    # gitlab
+    # docker-registry
+    # docker-hub
+    # huawei-SWR
+    # jfrog-artifactory
+    # helm-hub
+    description: ""
+
+# list of replication rules
+replication_rules:
+  - description: ""
+    dest_namespace_replace_conut: -1
+    replicate_deletion: true
+    filters:
+      - type: "name"
+        value: "kolla/**"
+    name: "kolla"
+    dest_registry: "quay.io"
+    enabled: true
+    dest_namespace: kolla
+    trigger:
+      type: "event_based"
+    override: true
+  - description: ""
+    dest_namespace_replace_conut: -1
+    replicate_deletion: true
+    filters:
+      - type: "name"
+        value: "osism/**"
+    name: "osism"
+    dest_registry: "quay.io"
+    enabled: true
+    dest_namespace: osism
+    trigger:
+      type: "event_based"
+    override: true
