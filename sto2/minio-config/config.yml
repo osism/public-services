@@ -1,0 +1,33 @@
+---
+# minio s3 url and credentials.
+s3:
+  endpoint: minio.services.osism.tech
+  access_key: superuser
+  secret_key: somesecuresecret
+
+# this variable is unsed and rather for documentation of possible bucket policies
+bucket_policies:
+  - download # anonymous download possible
+  - public # anonymous upload, download and delete possible
+  - private # no unauthorized access possible
+
+# this variable is unsed and rather for documentation of possible user policies
+user_policies:
+  - readonly # user can only read
+  - readwrite # user can read, write (also delete of course)
+  - writeonly # user can only write, not read
+
+# list of buckets (does not delete buckets)
+buckets:
+  - name: public-images
+    policy: download
+  - name: secret-development-bucket
+    policy: private
+
+# list of users with policies (does not delete users)
+users:
+  - name: foo # needs to be at least 3 digits
+    secret: barbaz09 # needs to be at least 8 digits
+    buckets:
+      - name: public-images
+        policy: writeonly
