@@ -35,7 +35,7 @@ microk8s enable dns dashboard storage ingress
 sto1 is a bare-metal system with 14x 16 TByte SATA HDDs. It is used to store logs of the CI
 and container images. The storage is configured in a ZFS pool.
 
-### Generic services
+### Generic services sto1
 
 ```sh
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
@@ -44,8 +44,8 @@ kubectl apply -f generic/cert-manager.yaml
 
 ### Elasticsearch & Kibana services
 
-* https://elasticsearch.services.osism.tech/
-* https://kibana.services.osism.tech/
+* <https://elasticsearch.services.osism.tech/>
+* <https://kibana.services.osism.tech/>
 
 ```sh
 kubectl create -f https://download.elastic.co/downloads/eck/1.8.0/crds.yaml
@@ -61,25 +61,41 @@ kubectl get secret logs-es-elastic-user -o go-template='{{.data.elastic | base64
 
 ### Harbor service
 
-* https://harbor.services.osism.tech
+* <https://harbor.services.osism.tech>
 
 ```sh
 helm repo add harbor https://helm.goharbor.io
 ```
 
 ```sh
-helm install --create-namespace --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml --set harborAdminPassword=password
+helm install --create-namespace --namespace harbor harbor harbor/harbor --values sto1/harbor/harbor.yaml --set harborAdminPassword=password
 ```
 
 ```sh
-helm upgrade --namespace harbor harbor harbor/harbor --values sto1/harbor.yaml
+helm upgrade --namespace harbor harbor harbor/harbor --values sto1/harbor/harbor.yaml
+```
+
+### Gitea service
+
+* <https://gitea.services.osism.tech>
+
+```sh
+helm repo add gitea-charts https://dl.gitea.io/charts/
+```
+
+```sh
+helm install --create-namespace --namespace gitea gitea gitea-charts/gitea --values sto1/gitea/values.yaml --set gitea.admin.password=password
+```
+
+```sh
+helm upgrade --namespace gitea gitea gitea-charts/gitea --values sto1/gitea/values.yaml
 ```
 
 ## sto2
 
 sto2 is a bare-metal system with 2x 8 TByte SATA HDDs. It is used to store machine images. Different to sto1, this system is not configured with a ZFS because minio cannot handle snapshots of ZFS and refuses to start at all (within kubernetes).
 
-### Generic services
+### Generic services sto2
 
 ```sh
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
@@ -88,8 +104,8 @@ kubectl apply -f generic/cert-manager.yaml
 
 ### Minio service
 
-* https://minio.management.osism.tech
-* https://minio.services.osism.tech
+* <https://minio.management.osism.tech>
+* <https://minio.services.osism.tech>
 
 ```sh
 brew install krew
@@ -108,9 +124,9 @@ kubectl apply -f generic/minio-operator.yaml
 ```
 
 ```sh
-kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio --namespace default > sto2/minio.yaml
-kubectl apply -f sto2/minio-secrets.yaml
-kubectl apply -f sto2/minio.yaml
+kubectl minio tenant create -o --servers 1 --volumes 4 --capacity 400Gi --storage-class microk8s-hostpath --enable-host-sharing minio --namespace default > sto2/minio/minio.yaml
+kubectl apply -f sto2/minio/minio-secrets.yaml
+kubectl apply -f sto2/minio/minio.yaml
 ```
 
 ```sh

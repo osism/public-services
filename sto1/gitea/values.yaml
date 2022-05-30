@@ -1,0 +1,61 @@
+replicaCount: 1
+image:
+  repository: gitea/gitea
+  pullPolicy: Always
+service:
+  http:
+    type: ClusterIP
+    port: 3000
+    clusterIP:
+  ssh:
+    type: ClusterIP
+    port: 22
+    clusterIP:
+ingress:
+  enabled: true
+  className: public
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+  hosts:
+    - host: gitea.services.osism.tech
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: cert-ingress-gitea
+      hosts:
+        - gitea.services.osism.tech
+  apiVersion: networking.k8s.io/v1
+persistence:
+  enabled: true
+  size: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  annotations:
+    storageClass: "microk8s-hostpath"
+gitea:
+  admin:
+    username: osism
+    email: "gitea@osism.tech"
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+  config:
+    APP_NAME: "OSISM GitHub mirror"
+    server:
+      ROOT_URL: "https://gitea.services.osism.tech"
+memcached:
+  enabled: true
+  service:
+    port: 11211
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      postgresqlDatabase: gitea
+      postgresqlUsername: gitea
+      postgresqlPassword: gitea
+      servicePort: 5432
+  persistence:
+    size: 10Gi
