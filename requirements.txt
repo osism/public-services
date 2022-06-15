@@ -3,3 +3,5 @@ requests
 botocore
 minio
 PyYAML
+sys
+os

@@ -1,0 +1,39 @@
+---
+- secret:
+    name: gitea-mirror
+    data:
+      GITEA_GITHUB_PAT: !encrypted/pkcs1-oaep
+        - Yuf+f/gTs/xAzI5ROPx8kYJIzRXaqyBWtJ2YruMNICvp+CowOsnkVAsfUYY+ZGQ7Sx9Nl
+          jtnaoYoF7O8RMS7roc8hI05fNMSNlFDZ/aa1o6L1e9QOrU0sn5Le2NdZbQP71HpydNPw1
+          MKU8IDrZ8lcb4IwsYeu4fFivVC+Cw+PeuOZBBdnCv5UtUW+nstlvqM1k2zJi0RcIHd38k
+          QlGVZIv7Pw240UdQrHUE4jk6wPXQ5DXpwWGNj96809dqSAc35MSb3K7WdP0x/XipLl2mB
+          XlhGFzq4ee8P6V6YulkK5OmEzBQgzyC3ipGgTBVuIdg40vvIuRzyA3VX2XYRvdbjddFnH
+          7hShznJVpuqMOry4u6M/6XRrN/sRpTI58valseOlshUfiIv/QYnZ+TuoJ475yKx8ryymj
+          YTRDyV8uD9w1C8b8gf1vMEiuLf8lYnzXBPRHD4FwTfCygdkF6pfX6cK7DTes/oOFMJR48
+          7YHNdngaIzJlo8lLv6/LgCgTTWI/0qZ+6OeL4eGnXIeOqVkMwn/NyRVIvWJItk5lGT6oC
+          DC+Q27NDzX96rvjKOUCg1IOmc0Vu1xJ/bL8+/MBGrd5W4gS1l16DSp+Zsct9qG2hPGa3x
+          BzgVlyZzQQFAfaIqJ6sEZKhY73AlVah5IgF6b6+9M5ST7u95T0+0Re4PQZ7gOI=
+      GITEA_TOKEN: !encrypted/pkcs1-oaep
+        - DQPaLbn6uROgTLxUQfmwC9faYiQONl001NjenhjJ1cJDRvVNh3F5CuO4rlllA4pquNSDY
+          WHbpoh923i6mP1t5IuAEMpzkmyp699fscMEkASCHFlr6WInjg/hPdTel60JDOGlOEhJUR
+          d7aotC9Od3n3jy/5IuhnGO1U6lKhPfkmaCBlhH6f/ihBCjXFMmW7JW+ljQhaRWV+AtyK0
+          lsvotSvXOq8EJaJDkHDX420MvEW4dg6qog5x3lGjoXmhcdFWkYOZCR5mrHu00yOAZAe9D
+          mG0Dgle/PAGezjgfY0xTvetF47td9WGPk1yYP5/HfXOsaSam40OghKbpfeSvb52snBbiT
+          i7RIBpxFNAV5B5jy8XLM3MILfOyDMSgd8WHfrLTgLkqvfKrQhOTbH+jOOeZD8PJ4f+kIz
+          nenI12XAKNiHx1OlvamxSz3sHQYMkVYEMOmNYhyPxUL53xGnlItiBZ0rtV9YxSxakj9Af
+          brD6t6GOL8tzlQdIkL8MBpbAzc1pU3ninFy78O2wSLY38oDen+QYUD0/kp/5Q3F1ttd45
+          NAdJEWAcjfS3LvRAaQWa/UC8lyNmbYc/G90a3hJGTIML2R7DJRa7rzOiqsv/VgupgW8YP
+          cAsQwsDzxjSh4i2d8JymEWjYLDvIbjJX3PvUdIbkw4RtI8gpgR9I5DUCHm99Kk=
+      
+- job:
+    name: update-gitea-mirrors
+    run: .playbooks/update-gitea-mirrors.yaml
+    secrets:
+      - name: mirror_creds
+        secret: osism_testbed_docs_creds
+
+- project:
+    default-branch: main
+    periodic-daily:
+      jobs:
+        - update-gitea-mirrors
