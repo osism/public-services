@@ -30,7 +30,7 @@
     run: .playbooks/update-gitea-mirrors.yaml
     secrets:
       - name: mirror_creds
-        secret: osism_testbed_docs_creds
+        secret: gitea-mirror
 
 - project:
     default-branch: main
