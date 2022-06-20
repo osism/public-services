@@ -27,6 +27,7 @@
       
 - job:
     name: update-gitea-mirrors
+    pre-run: .playbooks/pre.yaml
     run: .playbooks/update-gitea-mirrors.yaml
     secrets:
       - name: mirror_creds
