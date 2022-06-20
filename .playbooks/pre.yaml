@@ -4,4 +4,4 @@
   tasks:
     - name: install python packages
       ansible.builtin.pip:
-        requirements: "{{ zuul.project.src_dir }}/requirements.txt"
+        requirements: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/requirements.txt"
