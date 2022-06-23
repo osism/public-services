@@ -56,7 +56,7 @@ class GitHubSettings:
 
     def mirror_repos(self):
         for repo in self.repo_list:
-            payload = self.get_payload("https://github.com/osism/release.git")
+            payload = self.get_payload(repo)
             self.mirror(payload=payload)
 
 
