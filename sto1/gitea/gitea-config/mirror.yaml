@@ -37,7 +37,6 @@ github:
   - https://github.com/osism/openstack-configuration-validator.git
   - https://github.com/osism/openstack-flavor-manager.git
   - https://github.com/osism/openstack-gardener-dashboard.git
-  - https://github.com/osism/openstack-gardener-preparation.git
   - https://github.com/osism/openstack-image-gardenlinux.git
   - https://github.com/osism/openstack-image-manager.git
   - https://github.com/osism/openstack-ironic-images.git
